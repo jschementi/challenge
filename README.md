@@ -10,7 +10,8 @@ the stack), and the top card on the stack is turned face-up next to the stack,
 (beginning the discard pile). Play is round robin, with each player's
 turn consists of picking a card from either the top of the stack or the top
 of the discard pile, adding the card to their hand, and then discarding to the
-top of the discard pile. A player can only declare they win during their turn.
+top of the discard pile. A player can only declare they win during their turn,
+must still discard at the end of their turn and still have a winning hand.
 
 Pick **at least two** of the challenges below (you can do more!). You can
 decide to keep each individual challenge's implementation separate or
