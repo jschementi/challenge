@@ -1,17 +1,22 @@
 # Coding Challenge - Child Rummy
 
-Child Rummy is a simple variation of [Rummy](http://en.wikipedia.org/wiki/Rummy),
-where each player is dealt 7 cards from a 52 card deck (no jokers).
-A player wins by being the first to have a mutually exclusive
-3-of-a-kind (same card value, different suits) and 4-card-run (same suit,
-incrementing card value) in their hand.
-After dealing, the remaining cards are stacked face-down (called
-the stack), and the top card on the stack is turned face-up next to the stack,
-(beginning the discard pile). Play is round robin, with each player's
-turn consists of picking a card from either the top of the stack or the top
-of the discard pile, adding the card to their hand, and then discarding to the
-top of the discard pile. A player can only declare they win during their turn,
-and must still discard at the end of their turn and still have a winning hand.
+Child Rummy is a simple variation of [Rummy](http://en.wikipedia.org/wiki/Rummy):
+
+- Each player is dealt 7 cards from a 52 card deck (no jokers)
+- A player wins by being the first to have both a 
+  3-of-a-kind (same card value, different suits) and a 4-card-run (same suit,
+  incrementing card value) in their hand, where the cards used for each goal are
+  mutually exclusive.
+- After dealing, the remaining cards are stacked face-down (called
+  the stack), and the top card on the stack is turned face-up next to the stack,
+  (beginning the discard pile).
+- Play is round robin, with each player's turn consists of picking a card from
+  either the top of the stack or the top of the discard pile, adding the card
+  to their hand, and then discarding to the top of the discard pile.
+- A player can only declare they win during their turn, and must still discard
+  at the end of their turn and still have a winning hand.
+- If the stack is empty immediately after a player picks a card, before the 
+  player can discard the discard pile is shuffled and becomes the stack.
 
 Pick **at least two** of the challenges below (you can do more!). You can
 decide to keep each individual challenge's implementation separate or
@@ -41,8 +46,8 @@ card, discard a random card).
 Given a player's hand, implement an algorithm to detect if a hand is a winning
 hand or not.
 
-For example, the following is a winning hand because there exists a mutually
-exclusive 3-of-kind and a 4-card-run:
+For example, the following is a winning hand because there exists a 3-of-kind
+and a 4-card-run:
 
 ```
 A♥ A♠ A♣ 2♦ 3♦ 4♦ 5♦
@@ -50,7 +55,8 @@ A♥ A♠ A♣ 2♦ 3♦ 4♦ 5♦
 
 While the following are interesting examples of non-winning hands:
 
-- 4-card-run and 3-of-a-kind exists, but are not mutually exclusive:
+- 4-card-run and 3-of-a-kind exists independently, but not when considered
+  together (cards cannot be shared):
 
   ```
   A♥ A♦ A♣ 2♣ 3♣ 4♣ 8♣
