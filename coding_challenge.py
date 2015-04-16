@@ -91,7 +91,7 @@ def add_file_to_repo(owner, repo, src_file, new_path, commit_message):
 
 def create_coding_challenge(username, team_usernames):
     user = get_user(username)
-    candidate = user['name']
+    candidate = user['name'] if 'name' in user else user['login']
     print 'Creating coding challenge for {}'.format(candidate)
 
     team = create_team(org='SolsCo',
