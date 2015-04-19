@@ -8,9 +8,12 @@ by making them their own GitHub repository to push their answers to.
 In [Terminal.app](http://en.wikipedia.org/wiki/Terminal_%28OS_X%29), run:
 
 ```
+ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+echo "export PATH=/usr/local/bin:/usr/local/sbin:$PATH" >> ~/.profile
+brew install python
 git clone https://github.com/SolsCo/challenge.git
 cd challenge
-sudo pip install -r requirements
+pip install -r requirements
 ```
 
 ## Usage
