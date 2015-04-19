@@ -16,6 +16,9 @@ cd challenge
 pip install -r requirements
 ```
 
+> NOTE: You'll be prompted to install Xcode command-line tools if you don't
+> already have them installed.
+
 ## Usage
 
 Assign the coding challenge to a GitHub username:
