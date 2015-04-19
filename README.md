@@ -10,6 +10,7 @@ In [Terminal.app](http://en.wikipedia.org/wiki/Terminal_%28OS_X%29), run:
 ```
 ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 echo "export PATH=/usr/local/bin:/usr/local/sbin:$PATH" >> ~/.profile
+source ~/.profile
 brew install python
 git clone https://github.com/SolsCo/challenge.git
 cd challenge
