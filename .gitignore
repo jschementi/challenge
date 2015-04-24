@@ -1,0 +1,5 @@
+*.pyc
+*.swp
+/static/vendor
+!/static/vendor/bootstrap/dist
+!/static/vendor/jquery/dist

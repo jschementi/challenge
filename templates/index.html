@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+{% block styles %}
+<style>
+  .list-group-item .remove {
+    color: red;
+  }
+  .list-group-item .remove:hover {
+    text-decoration: none;
+  }
+</style>
+{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="page-header">
+    <h1>Coding Challenges</h1>
+  </div>
+  <p class="lead">
+    Please send your review to <a href="mailto:tech@sols.co">tech@sols.co</a>. 
+  </p>
+  <ul class="list-group">
+    {% for c in challenges %}
+      <li class="list-group-item">
+        <a href="{{ c.html_url }}" target="_blank" data-toggle="tooltip" data-placement="right" title="View coding challenge">{{ c.candidate }}</a>
+        <a href="javascript:void(0)" class="remove pull-right" data-repo="{{ c.name }}" data-toggle="tooltip" data-placement="left" title="Delete coding challenge">&#10005;</a>
+        <span class="pull-right" style="margin-left: 10px">&nbsp;</span>
+        {% if c.language %}
+          <span class="badge">{{ c.language }}</span>
+        {% else %}
+        <span class="pull-right small"><i>Not started</i></span>
+        {% endif %}
+      </a>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="/static/vendor/bootbox/bootbox.js"></script>
+<script>
+  $(function () {
+    $('[data-toggle="tooltip"]').tooltip();
+    $('a.remove').click(function () {
+      var repo_name = $(this).data('repo');
+      bootbox.confirm("Are you sure you want to delete this coding challenge?", function (result) {
+        if (result) {
+          $('<form action="/assignment/'+repo_name+'?__METHOD_OVERRIDE__=DELETE" method="POST"></form>').submit();
+        }
+      }); 
+    });
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends "layout.html" %}
+{% block styles %}
+<style>
+  .twitter-typeahead {
+    display: block !important;
+  }
+  .twitter-typeahead .tt-query,
+  .twitter-typeahead .tt-hint {
+    margin-bottom: 0;
+  }
+  .tt-dropdown-menu {
+    min-width: 160px;
+    margin-top: 2px;
+    padding: 5px 0;
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+          box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+    background-clip: padding-box;
+   
+  }
+  .tt-suggestion {
+    display: block;
+    padding: 3px 20px;
+    cursor: pointer;
+  }
+  .tt-suggestion:hover {
+    color: #fff;
+    background-color: #428bca;
+  }
+  .tt-suggestion:hover a {
+    color: #fff;
+  }
+  .tt-suggestion p {
+    margin: 0;
+  }
+</style>
+{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="page-header">
+    <h1>New Assignment</h1>
+  </div>
+  <form method="POST" action="/assignment">
+    <div class="form-group">
+      <label for="github-username">Candidate's GitHub Username</label>
+      <input type="text" class="form-control" name="github-username" placeholder="Enter Candidate's GitHub username">
+    </div>
+    <button type="submit" class="btn btn-primary">Assign Coding Challenge</button>
+  </form>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+  var githubUsers = new Bloodhound({
+    datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+    queryTokenizer: Bloodhound.tokenizers.whitespace,
+    remote: '/search/users?q=%QUERY'
+  });
+   
+  githubUsers.initialize();
+   
+  $('input[name=github-username]').typeahead(null, {
+    name: 'github-username',
+    displayKey: 'login',
+    source: githubUsers.ttAdapter()
+  });
+</script>
+{% endblock %}
