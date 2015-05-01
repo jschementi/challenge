@@ -13,8 +13,8 @@ app = Flask(__name__)
 app.secret_key = '\xa5m\xc9?\xd3\x92\xfc>\xc9<\x8f\xed\x86lp=\xe6R\xec\xe4\xde\xda\x0f\xea'
 app.wsgi_app = MethodRewriteMiddleware(app.wsgi_app)
 
-app.config['GITHUB_CLIENT_ID'] = '5dc688687516b59095d3'
-app.config['GITHUB_CLIENT_SECRET'] = 'fad559f92642c90c9bfcaf9c91ea71a6ba34baeb'
+app.config['GITHUB_CLIENT_ID'] = '7feb7cc289661227dd93'
+app.config['GITHUB_CLIENT_SECRET'] = '90cf566b0a344354c6ddc5608688a0f070deabe9'
 github = GitHub(app)
 
 @app.route("/")
