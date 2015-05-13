@@ -81,14 +81,21 @@ def remove_coding_challenge(username):
     username = get_username(user)
     print('Removing coding challenge for {}'.format(username))
     team = github.get_repo_team(org, get_repo_name(username), get_team_name(username))
+    first_error = None
     try:
         github.delete_repo(org, get_repo_name(username))
     except Exception as e:
+        if first_error is None:
+            first_error = e
         print_exception(e)
     try:
         github.delete_team(team['id'])
     except Exception as e:
+        if first_error is None:
+            first_error = e
         print_exception(e)
+    if first_error:
+        raise first_error
 
 def print_exception(err, prefix="An unexpected error occurred", do_before_trace=None):
     print("{}: {}".format(prefix, err.message))
