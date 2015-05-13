@@ -37,13 +37,20 @@ def new_assignment():
 @app.route("/assignment", methods=['POST'])
 def create_assignment():
     username = request.form['github-username']
-    candidate, team, repo = coding_challenge.create_coding_challenge(username)
-    flash('Candidate {} assigned to the coding challenge! They should submit their work to {}'.format(candidate, repo['html_url']), 'success')
+    try:
+        candidate, team, repo = coding_challenge.create_coding_challenge(username)
+        flash('GitHub user "{}" assigned to the coding challenge! They should submit their work to {}'.format(username, repo['html_url']), 'success')
+    except github_admin_api.requests.exceptions.RequestException as err:
+        flash('Error: {}'.format(json.loads(err.response.text)['message']), 'error')
     return redirect('/')
 
-@app.route("/assignment", methods=['DELETE'])
-def delete_assignment():
-    flash('Not Implemented!', 'warning')
+@app.route("/assignment/<username>", methods=['DELETE'])
+def delete_assignment(username):
+    try:
+        coding_challenge.remove_coding_challenge(username)
+        flash('Removed coding challenge for {}'.format(username), 'success')
+    except github_admin_api.requests.exceptions.RequestException as err:
+        flash('Error: {}'.format(json.loads(err.response.text)['message']), 'error')
     return redirect('/')
 
 @app.route("/search/users", methods=['GET'])
