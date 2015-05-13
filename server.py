@@ -60,7 +60,7 @@ def before_request():
     g.user = github.get('user')
     if not is_authorized():
         return render_template('unauthorized.html'), 401
- 
+
 @github.access_token_getter
 def token_getter():
     return session.get('github_access_token', None)
