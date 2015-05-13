@@ -1,4 +1,5 @@
 import json
+import os
 
 from flask import Flask, request, flash, render_template, abort, redirect, url_for, jsonify, g, session 
 from flask.ext.github import GitHub
@@ -10,12 +11,14 @@ import github as github_admin_api
 
 app = Flask(__name__)
 
-app.secret_key = '\xa5m\xc9?\xd3\x92\xfc>\xc9<\x8f\xed\x86lp=\xe6R\xec\xe4\xde\xda\x0f\xea'
+app.secret_key = '\xa5m\xc9?\xd3\x92\xfc>\xc9<\x8f\xed\x86lp=\xe6R\xec\xe4\xde\xda\x0f\xea' # TODO: not so secret - pull out into env
 app.wsgi_app = MethodRewriteMiddleware(app.wsgi_app)
 
-app.config['GITHUB_CLIENT_ID'] = '7feb7cc289661227dd93'
-app.config['GITHUB_CLIENT_SECRET'] = '90cf566b0a344354c6ddc5608688a0f070deabe9'
+app.config['GITHUB_CLIENT_ID'] = os.getenv('GITHUB_CLIENT_ID')
+app.config['GITHUB_CLIENT_SECRET'] = os.getenv('GITHUB_CLIENT_SECRET')
 github = GitHub(app)
+
+app.config['DEBUG'] = bool(int(os.getenv('DEBUG', 1)))
 
 @app.route("/")
 def index():
@@ -82,5 +85,4 @@ def authorized(oauth_token):
     return redirect(next_url)
 
 if __name__ == "__main__":
-    app.run(debug=True)
-
+    app.run()
