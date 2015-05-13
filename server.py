@@ -1,8 +1,8 @@
 import json
 import os
 
-from flask import Flask, request, flash, render_template, abort, redirect, url_for, jsonify, g, session 
-from flask.ext.github import GitHub
+from flask import Flask, request, flash, render_template, abort, redirect, url_for, jsonify, g, session
+from flask.ext.github import GitHub, GitHubError
 
 from method_rewrite_middleware import MethodRewriteMiddleware
 import coding_challenge
@@ -65,7 +65,10 @@ def before_request():
         return
     if session.get('github_access_token', None) is None:
         return github.authorize()
-    g.user = github.get('user')
+    try:
+        g.user = github.get('user')
+    except GitHubError as err:
+        return github.authorize()
     if not is_authorized():
         return render_template('unauthorized.html'), 401
 
