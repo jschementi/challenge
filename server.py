@@ -23,7 +23,8 @@ app.config['DEBUG'] = bool(int(os.getenv('DEBUG', 1)))
 @app.route("/")
 def index():
     challenges = [{
-                    'candidate': ' '.join([p.capitalize() for p in c['name'].split('-')[1:]]),
+                    'repo_name': c['name'],
+                    'username': ''.join(c['name'].split('challenge-')[1:]),
                     'html_url': c['html_url'],
                     'language': c['language']
                   } for c in coding_challenge.list_coding_challenges()]
