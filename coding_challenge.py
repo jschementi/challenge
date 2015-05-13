@@ -1,5 +1,8 @@
+from __future__ import print_function
+
 import re
 import sys
+import traceback
 
 import github
 github.set_user_agent('https://github.com/SolsCo/challenge')
@@ -25,39 +28,48 @@ def list_coding_challenges():
 def search_users(q):
     return github.search_users(q)
 
+def get_candidate(user):
+    return user['name'] if 'name' in user else user['login']
+
 def create_coding_challenge(username):
     user = github.get_user(username)
-    candidate = user['name'] if 'name' in user else user['login']
+    candidate = get_candidate(user)
 
-    print 'Creating coding challenge for {}'.format(candidate)
+    print('Creating coding challenge for {}'.format(candidate))
+    team_name = get_team_name(candidate)
 
-    team = github.create_team(org=org,
-                              name=get_team_name(candidate),
-                              description=coding_challenge_description.format(candidate=candidate),
-                              repo_names=[],
-                              permission='push')
+    team = github.get_team(org, team_name, by='name')
+    if not team:
+        team = github.create_team(org=org,
+                                  name=team_name,
+                                  description=coding_challenge_description.format(candidate=candidate),
+                                  repo_names=[],
+                                  permission='push')
 
     github.add_team_membership(team['id'], username)
 
     repo_name = get_repo_name(candidate)
-    repo = github.create_repo(org=org,
-                              name=repo_name,
-                              description=coding_challenge_description.format(candidate=candidate),
-                              homepage=repo_homepage,
-                              is_private=True,
-                              has_issues=False,
-                              has_wiki=False,
-                              has_downloads=False,
-                              team_id=team['id'],
-                              auto_init=False,
-                              gitignore_template=None,
-                              license_template=None)
+    repo = github.get_repo(org, repo_name)
+    if not repo:
+        repo = github.create_repo(org=org,
+                                  name=repo_name,
+                                  description=coding_challenge_description.format(candidate=candidate),
+                                  homepage=repo_homepage,
+                                  is_private=True,
+                                  has_issues=False,
+                                  has_wiki=False,
+                                  has_downloads=False,
+                                  team_id=team['id'],
+                                  auto_init=False,
+                                  gitignore_template=None,
+                                  license_template=None)
 
-    github.add_file_to_repo(owner=org,
-                            repo=repo['name'],
-                            src_file='coding_challenge.md',
-                            new_path='README.md',
-                            commit_message='Coding challenge instructions')
+    github.ensure_file_contents(owner=org,
+                                repo=repo['name'],
+                                src_file='coding_challenge.md',
+                                path='README.md',
+                                new_commit_message='Coding challenge instructions',
+                                update_commit_message='Update coding challenge instructions')
 
     for team_id in team_ids:
         github.add_team_repository(team_id, org, repo_name)
@@ -66,19 +78,40 @@ def create_coding_challenge(username):
 
 def remove_coding_challenge(username):
     user = github.get_user(username)
-    candidate = user['name']
-    print 'Removing coding challenge for {}'.format(candidate) 
+    candidate = get_candidate(user)
+    print('Removing coding challenge for {}'.format(candidate))
     team = github.get_repo_team(org, get_repo_name(candidate), get_team_name(candidate))
-    github.delete_repo(org, get_repo_name(candidate))
-    github.delete_team(team['id'])
+    try:
+        github.delete_repo(org, get_repo_name(candidate))
+    except Exception as e:
+        print_exception(e)
+    try:
+        github.delete_team(team['id'])
+    except Exception as e:
+        print_exception(e)
+
+def print_exception(err, prefix="An unexpected error occurred", do_before_trace=None):
+    print("{}: {}".format(prefix, err.message))
+    if do_before_trace:
+        do_before_trace(err)
+    print(traceback.format_exc())
 
 def main(args):
-    username = args.pop(0)
-    if username == '--remove':
+    try:
         username = args.pop(0)
-        remove_coding_challenge(username)
-    else:
-        create_coding_challenge(username)
-    
+        if username == '--remove':
+            username = args.pop(0)
+            remove_coding_challenge(username)
+        else:
+            create_coding_challenge(username)
+    except github.requests.exceptions.RequestException as err:
+        print_exception(err,
+                        "An HTTP error occurred",
+                        lambda err: print("HTTP Response: {}".format(err.response.text)))
+        sys.exit(1)
+    except Exception as err:
+        print_exception(err)
+        sys.exit(1)
+
 if __name__ == '__main__':
     main(sys.argv[1:])

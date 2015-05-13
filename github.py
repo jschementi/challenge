@@ -55,17 +55,31 @@ def add_team_membership(team_id, username):
     return r.json()
 
 def add_team_repository(team_id, org, repo):
+    print 'Add team {} to {}/{}'.format(team_id, org, repo)
     r = requests.put('{}/teams/{}/repos/{}/{}'.format(github_api_url, team_id, org, repo), auth=github_auth, headers=headers)
     r.raise_for_status()
 
 def list_teams(org):
+    print 'Getting {} teams'.format(org)
     return requests_paged_as_json('get', '{}/orgs/{}/teams'.format(github_api_url, org), auth=github_auth, headers=headers)
 
-def get_team(org, team_slug):
+def get_team(org, team_value, by="slug"):
+    print 'Get {} teams where {}={}'.format(org, by, team_value)
     teams = list_teams(org)
-    eng_team = [team for team in teams if team['slug'] == team_slug]
+    eng_team = [team for team in teams if team[by] == team_value]
     if len(eng_team) == 1:
         return eng_team[0]
+
+def get_repo(org, name):
+    print 'Get {}/{}'.format(org, name)
+    r = requests.get('{}/repos/{}/{}'.format(github_api_url, org, name), auth=github_auth, headers=headers)
+    response_json = r.json()
+    if r.ok:
+        return response_json
+    elif 'message' in response_json and response_json['message'] == 'Not Found':
+        return None
+    else:
+        r.raise_for_status()
 
 def create_repo(org, name, description, homepage, is_private, has_issues, has_wiki, has_downloads, team_id, auto_init, gitignore_template, license_template):
     print 'Create repo "{}/{}"'.format(org, name)
@@ -97,6 +111,7 @@ def delete_repo(owner, repo):
     r.raise_for_status()
 
 def get_repo_team(owner, repo, team):
+    print 'Get team {} in {}/{}'.format(team, owner, repo)
     r = requests.get('{}/repos/{}/{}/teams'.format(github_api_url, owner, repo), auth=github_auth, headers=headers)
     r.raise_for_status()
     t = r.json()[0]
@@ -105,12 +120,44 @@ def get_repo_team(owner, repo, team):
     return t
 
 def get_user(username):
+    print 'Get user {}'.format(username)
     r = requests.get('{}/users/{}'.format(github_api_url, username), auth=github_auth, headers=headers)
     r.raise_for_status()
     return r.json()
 
+def get_file_contents_from_repo(owner, repo, path):
+    print 'Get file contents for {}/{}/{}'.format(owner, repo, path)
+    r = requests.get('{}/repos/{}/{}/contents/{}'.format(github_api_url, owner, repo, path), auth=github_auth, headers=headers)
+    return {'body': r.json(), 'ok': r.ok}
+
+def update_file_contents(owner, repo, version, src_file, path, commit_message):
+    print 'Update {}/{}/{} with contents of {}: {}'.format(owner, repo, path, src_file, commit_message)
+    with open(src_file) as f:
+        r = requests.put('{}/repos/{}/{}/contents/{}'.format(github_api_url, owner, repo, path),
+                         data=json.dumps({'message': commit_message,
+                                          'content': base64.b64encode(f.read()),
+                                          'sha': version
+                                         }),
+                         auth=github_auth,
+                         headers=headers)
+    r.raise_for_status()
+    return r.json()
+
+def update_file_contents_if_different(owner, repo, src_file, path, commit_message):
+    print 'Checking to see if {} and {} are different'.format(src_file, path)
+    result = get_file_contents_from_repo(owner, repo, path)
+    if not result['ok']:
+        return None
+    with open(src_file) as f:
+        data = f.read()
+        if base64.b64decode(result['body']['content']) != data:
+            print "Different! Updating..."
+            update_file_contents(owner, repo, version, src_file, path, commit_message)
+        else:
+            print "Same! Nothing to do..."
+
 def add_file_to_repo(owner, repo, src_file, new_path, commit_message):
-    print 'Add {} to {}/{} as {}'.format(src_file, owner, repo, new_path)
+    print 'Add {}/{}/{} with contents of {}: {}'.format(owner, repo, new_path, src_file, commit_message)
     with open(src_file) as f:
         r = requests.put('{}/repos/{}/{}/contents/{}'.format(github_api_url, owner, repo, new_path), data=json.dumps({
                              'message': commit_message,
@@ -118,7 +165,16 @@ def add_file_to_repo(owner, repo, src_file, new_path, commit_message):
                           }), auth=github_auth, headers=headers)
         r.raise_for_status()
 
+def ensure_file_contents(owner, repo, src_file, path, new_commit_message, update_commit_message):
+    print 'Ensure contents of {} is same as {}/{}/{}'.format(src_file, owner, repo, path)
+    result = get_file_contents_from_repo(owner, repo, path)
+    if result['ok']:
+        update_file_contents_if_different(owner, repo, src_file, path, update_commit_message)
+    else:
+        add_file_to_repo(owner, repo, src_file, path, new_commit_message)
+
 def search_users(q):
+    print "Searching for user: {}".format(q)
     r = requests.get('{}/search/users'.format(github_api_url),
                      params={'q': q},
                      auth=github_auth, headers=headers)
@@ -126,6 +182,7 @@ def search_users(q):
     return r.json()['items']
 
 def get_team_membership(team_id, username):
+    print 'Getting team {} membership for {}'
     r = requests.get('{}/teams/{}/memberships/{}'.format(github_api_url, team_id, username), auth=github_auth, headers=headers)
     return r.json(), r.status_code
 
