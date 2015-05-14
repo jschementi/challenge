@@ -38,10 +38,6 @@ Open [http://localhost:5000](http://localhost:5000) in web browser.
 
 ## Deploy
 
-[![Build Status](http://ec2-52-5-135-159.compute-1.amazonaws.com:8080/buildStatus/icon?job=coding-challenge-admin)](http://ec2-52-5-135-159.compute-1.amazonaws.com:8080/job/coding-challenge-admin/)
-[![Build Status](http://ec2-52-5-135-159.compute-1.amazonaws.com:8080/job/coding-challenge-admin/badge/icon)](http://ec2-52-5-135-159.compute-1.amazonaws.com:8080/job/coding-challenge-admin/)
-<a href='http://ec2-52-5-135-159.compute-1.amazonaws.com:8080/job/coding-challenge-admin/'><img src='http://ec2-52-5-135-159.compute-1.amazonaws.com:8080/buildStatus/icon?job=coding-challenge-admin'></a>
-
 The [app is deployed to AWS](http://ec2-52-4-137-245.compute-1.amazonaws.com) with
 [Riker](http://github.com/jschementi/riker). [Jenkins](http://ec2-52-5-135-159.compute-1.amazonaws.com:8080/job/coding-challenge-admin/)
 performs the deployment on each push to this repository.
