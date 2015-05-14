@@ -63,6 +63,8 @@ def search_users():
 def before_request():
     if request.path == '/github-callback':
         return
+    if request.path.startswith('/static/'):
+        return
     if session.get('github_access_token', None) is None:
         return github.authorize()
     try:
@@ -80,7 +82,7 @@ def is_authorized():
     return is_org_member(coding_challenge.org) and any(map(is_team_member, coding_challenge.team_ids))
 
 def is_org_member(org):
-    return len([o for o in github.get('users/{}/orgs'.format(g.user['login'])) if o['login'] == org]) == 1
+    return 200 <= github_admin_api.get_org_membership(org, g.user['login']) < 300
 
 def is_team_member(team_id):
     r, status = github_admin_api.get_team_membership(team_id, g.user['login'])

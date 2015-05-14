@@ -182,7 +182,11 @@ def search_users(q):
     return r.json()['items']
 
 def get_team_membership(team_id, username):
-    print 'Getting team {} membership for {}'
+    print 'Getting team {} membership for {}'.format(team_id, username)
     r = requests.get('{}/teams/{}/memberships/{}'.format(github_api_url, team_id, username), auth=github_auth, headers=headers)
     return r.json(), r.status_code
 
+def get_org_membership(org, username):
+    print 'Getting org {} membership for {}'.format(org, username)
+    r = requests.get('{}/orgs/{}/members/{}'.format(github_api_url, org, username), auth=github_auth, headers=headers)
+    return r.status_code
