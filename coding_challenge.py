@@ -10,7 +10,7 @@ github.set_oauth_token('475c949a1d224108e2095d66f62c1d6c93095521')
 
 org = 'SolsCo'
 coding_challenge_description = 'SOLS Coding Challenge for {username}'
-repo_homepage = 'http://www.sols.co'
+repo_homepage = 'http://www.sols.com/careers'
 
 teams = ['engineers', 'recruiting']
 
