@@ -99,6 +99,7 @@ def remove_coding_challenge(username):
 
 def remove_user_from_repo(username):
     user = github.get_user(username)
+    username = get_username(user)
     print('Removing {} from repo {}'.format(username, get_repo_name(username)))
 
     try:
@@ -107,6 +108,8 @@ def remove_user_from_repo(username):
         if first_error is None:
             first_error = e
         print_exception(e)
+    if first_error:
+        raise first_error
 
 def print_exception(err, prefix="An unexpected error occurred", do_before_trace=None):
     print("{}: {}".format(prefix, err.message))
