@@ -110,6 +110,11 @@ def delete_repo(owner, repo):
     r = requests.delete('{}/repos/{}/{}'.format(github_api_url, owner, repo), auth=github_auth, headers=headers)
     r.raise_for_status()
 
+def delete_user_from_repo(owner, user, repo):
+    print 'Delete user {} from {}'.format(owner, repo)
+    r = requests.delete('{}/repos/{}/{}/collaborators/{}'.format(github_api_url, owner, repo, user))
+    r.raise_for_status()
+
 def get_repo_team(owner, repo, team):
     print 'Get team {} in {}/{}'.format(team, owner, repo)
     r = requests.get('{}/repos/{}/{}/teams'.format(github_api_url, owner, repo), auth=github_auth, headers=headers)
