@@ -102,7 +102,7 @@ def remove_user_from_repo(username):
     print('Removing {} from repo {}'.format(username, get_repo_name(username)))
 
     try:
-        github.remove_user(org, username, get_repo_name(username))
+        github.delete_user_from_repo(org, username, get_repo_name(username))
     except Exception as e:
         if first_error is None:
             first_error = e
