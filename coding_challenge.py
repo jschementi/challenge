@@ -89,7 +89,8 @@ def remove_coding_challenge(username):
             first_error = e
         print_exception(e)
     try:
-        github.delete_team(team['id'])
+        if team is not None:
+            github.delete_team(team['id'])
     except Exception as e:
         if first_error is None:
             first_error = e
@@ -101,8 +102,7 @@ def remove_coding_challenge(username):
 def remove_user_from_repo(username):
     user = github.get_user(username)
     username = get_username(user)
-    team_name = get_team_name(username)
-    team = github.get_team(org, team_name, by='name')
+    team = github.get_team(org, get_team_name(username), by='name')
     print('Removing {} from repo {}'.format(username, get_repo_name(username)))
     first_error = None
     try:

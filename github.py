@@ -126,7 +126,7 @@ def get_repo_team(owner, repo, team):
     r.raise_for_status()
     t = r.json()[0]
     if t['name'] != team:
-        raise Exception('Candidate team not found')
+        return None
     return t
 
 def get_user(username):
