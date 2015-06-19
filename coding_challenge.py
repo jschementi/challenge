@@ -97,13 +97,16 @@ def remove_coding_challenge(username):
     if first_error:
         raise first_error
 
+# candidate is added to a team, then team is added to repo. Simplest way is to delete their team
 def remove_user_from_repo(username):
     user = github.get_user(username)
     username = get_username(user)
+    team_name = get_team_name(username)
+    team = github.get_team(org, team_name, by='name')
     print('Removing {} from repo {}'.format(username, get_repo_name(username)))
-
+    first_error = None
     try:
-        github.delete_user_from_repo(org, username, get_repo_name(username))
+        github.delete_team(team['id'])
     except Exception as e:
         if first_error is None:
             first_error = e
@@ -123,7 +126,7 @@ def main(args):
         if username == '--remove':
             username = args.pop(0)
             remove_coding_challenge(username)
-        elif username = '--remove-from-repo':
+        elif username == '--remove-from-repo':
             username = args.pop(0)
             remove_user_from_repo(username)
         else:

@@ -54,6 +54,11 @@ def add_team_membership(team_id, username):
     r.raise_for_status()
     return r.json()
 
+def remove_team_membership(team_id, username):
+    print 'Removing {} from team {}'.format(username, team_id)
+    r = requests.delete('{}/teams/{}/memberships/{}'.format(github_api_url, team_id, username), auth=github_auth, headers=headers)
+    r.raise_for_status()
+
 def add_team_repository(team_id, org, repo):
     print 'Add team {} to {}/{}'.format(team_id, org, repo)
     r = requests.put('{}/teams/{}/repos/{}/{}'.format(github_api_url, team_id, org, repo), auth=github_auth, headers=headers)
@@ -110,9 +115,9 @@ def delete_repo(owner, repo):
     r = requests.delete('{}/repos/{}/{}'.format(github_api_url, owner, repo), auth=github_auth, headers=headers)
     r.raise_for_status()
 
-def delete_user_from_repo(owner, user, repo):
+def remove_collaborator_from_repo(owner, user, repo):
     print 'Delete user {} from {}'.format(owner, repo)
-    r = requests.delete('{}/repos/{}/{}/collaborators/{}'.format(github_api_url, owner, repo, user))
+    r = requests.delete('{}/repos/{}/{}/collaborators/{}'.format(github_api_url, owner, repo, user), auth=github_auth, headers=headers)
     r.raise_for_status()
 
 def get_repo_team(owner, repo, team):
