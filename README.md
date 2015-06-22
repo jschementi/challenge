@@ -70,6 +70,13 @@ Assign the coding challenge to a GitHub username:
 ./coding_challenge <github-username>
 ```
 
+Remove the candidate from the repo:
+
+```
+./coding_challenge --remove-from-repo <github-username>
+```
+
+
 After their interview process is complete and we no longer need to reference
 their solutions, you can unassign the coding challenge:
 
