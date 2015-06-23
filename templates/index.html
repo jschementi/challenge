@@ -7,6 +7,16 @@
   .list-group-item .delete .remove:hover {
     text-decoration: none;
   }
+  .button-item {
+    margin-left: 10px;
+  }
+  .block {
+    min-width: 100px;
+  }
+  .block span {
+    text-align: center;
+  }
+
 </style>
 {% endblock %}
 {% block content %}
@@ -22,18 +32,27 @@
       <li class="list-group-item">
         <a href="{{ c.html_url }}" target="_blank" data-toggle="tooltip" data-placement="right" title="View coding challenge">{{ c.username }}</a>
         {% if c.is_done %}
-          <span class="pull-right small" style="margin-left: 10px;"><i>In review</i></span>
+          <span class="pull-right small button-item"><i>In review</i></span>
         {% else %}
-          <a href="javascript:void(0)" class="remove pull-right" target="_blank" data-toggle="tooltip" data-placement="left" title="Remove candidate from repo and create PR" style="margin-left: 10px;">Review</a>
+          <a href="javascript:void(0)" class="remove pull-right button-item" target="_blank" data-toggle="tooltip" data-placement="left" title="Remove candidate from repo and create PR">Review</a>
         {% endif %}
 
         <a href="javascript:void(0)" class="delete pull-right" data-username="{{ c.username }}" data-toggle="tooltip" data-placement="left" title="Delete coding challenge">&#10005;</a>
-        <span class="pull-right" style="margin-left: 10px">&nbsp;</span>
-
+        <span class="pull-right button-item">&nbsp;</span>
+        <span class="block pull-right">
         {% if c.language %}
-          <span class="badge">{{ c.language }}</span>
+          <span class="center-block">
+            <span class="badge">{{ c.language }}</span>
+          </span>
         {% else %}
-          <span class="pull-right small"><i>Not started</i></span>
+          <span class="center-block">
+            <span class="small"><i>Not started</i></span>
+          </span>
+        {% endif %}
+        </span>
+
+        {% if c.last_update %}
+          <span class="pull-right small">Last updated: {{ c.last_update }}</span>
         {% endif %}
       </a>
     {% endfor %}

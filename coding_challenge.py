@@ -121,8 +121,9 @@ def is_candidate_ready_for_review(username):
     return True if team is None else False
 
 def get_last_update(username):
-
-    pass
+    repo = get_repo_name(username)
+    commits = github.list_commits_on_repo(org, repo, username)
+    return commits[0]['commit']['author']['date'].split('T')[0]
 
 def create_pull_request(username):
     pass

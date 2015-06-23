@@ -140,6 +140,11 @@ def get_repo_team(owner, repo, team):
         return None
     return t
 
+def list_commits_on_repo(owner, repo, author):
+    r = requests.get('{}/repos/{}/{}/commits'.format(github_api_url, owner, repo), data=json.dumps({'author': author}), auth=github_auth, headers=headers)
+    r.raise_for_status();
+    return r.json()
+
 def get_user(username):
     print 'Get user {}'.format(username)
     r = requests.get('{}/users/{}'.format(github_api_url, username), auth=github_auth, headers=headers)
