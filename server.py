@@ -26,7 +26,9 @@ def index():
                     'repo_name': c['name'],
                     'username': ''.join(c['name'].split('challenge-')[1:]),
                     'html_url': c['html_url'],
-                    'language': c['language']
+                    'language': c['language'],
+                    'is_done': coding_challenge.is_candidate_ready_for_review(''.join(c['name'].split('challenge-')[1:])),
+                    'last_update': coding_challenge.get_last_update(''.join(c['name'].split('challenge-')[1:]))
                   } for c in coding_challenge.list_coding_challenges()]
     return render_template('index.html', challenges=challenges)
 
@@ -58,6 +60,15 @@ def search_users():
     q = request.args.get('q')
     users = coding_challenge.search_users(q)
     return json.dumps(users)
+
+@app.route("/assignment/remove/<username>", methods=['DELETE'])
+def remove_from_repo(username):
+    try:
+        coding_challenge.remove_user_from_repo(username)
+        flash('GitHub user "{}" removed from the coding challenge repo!'.format(username), 'success')
+    except github_admin_api.requests.exceptions.RequestException as err:
+        flash('Error: {}'.format(json.loads(err.response.text)['message']), 'error')
+    return redirect('/')
 
 @app.before_request
 def before_request():

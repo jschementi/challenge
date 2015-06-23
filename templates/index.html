@@ -1,10 +1,10 @@
 {% extends "layout.html" %}
 {% block styles %}
 <style>
-  .list-group-item .remove {
+  .list-group-item .delete {
     color: red;
   }
-  .list-group-item .remove:hover {
+  .list-group-item .delete .remove:hover {
     text-decoration: none;
   }
 </style>
@@ -21,12 +21,19 @@
     {% for c in challenges %}
       <li class="list-group-item">
         <a href="{{ c.html_url }}" target="_blank" data-toggle="tooltip" data-placement="right" title="View coding challenge">{{ c.username }}</a>
-        <a href="javascript:void(0)" class="remove pull-right" data-username="{{ c.username }}" data-toggle="tooltip" data-placement="left" title="Delete coding challenge">&#10005;</a>
+        {% if c.is_done %}
+          <span class="pull-right small" style="margin-left: 10px;"><i>In review</i></span>
+        {% else %}
+          <a href="javascript:void(0)" class="remove pull-right" target="_blank" data-toggle="tooltip" data-placement="left" title="Remove candidate from repo and create PR" style="margin-left: 10px;">Review</a>
+        {% endif %}
+
+        <a href="javascript:void(0)" class="delete pull-right" data-username="{{ c.username }}" data-toggle="tooltip" data-placement="left" title="Delete coding challenge">&#10005;</a>
         <span class="pull-right" style="margin-left: 10px">&nbsp;</span>
+
         {% if c.language %}
           <span class="badge">{{ c.language }}</span>
         {% else %}
-        <span class="pull-right small"><i>Not started</i></span>
+          <span class="pull-right small"><i>Not started</i></span>
         {% endif %}
       </a>
     {% endfor %}
@@ -38,7 +45,7 @@
 <script>
   $(function () {
     $('[data-toggle="tooltip"]').tooltip();
-    $('a.remove').click(function () {
+    $('a.delete').click(function () {
       var username = $(this).data('username');
       if (!username) {
         throw new Error("No username!");
@@ -48,6 +55,16 @@
           $('<form action="/assignment/'+username+'?__METHOD_OVERRIDE__=DELETE" method="POST"></form>').submit();
         }
       });
+    });
+  });
+
+  $('a.remove').click(function() {
+    var username = $(this).data('username');
+
+    bootbox.confirm("Are you sure you want to set this assignment to 'In review'? This cannot be undone.", function(result) {
+      if (result) {
+        $('<form action="/assignment/remove/' + username + '?__METHOD_OVERRIDE__=DELETE" method="POST"></form').submit();
+      }
     });
   });
 </script>

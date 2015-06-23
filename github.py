@@ -104,6 +104,17 @@ def create_repo(org, name, description, homepage, is_private, has_issues, has_wi
     r.raise_for_status()
     return r.json()
 
+def create_pull_request(repo, title, head, base, body):
+    print 'Creating pull request for {}'.format(repo)
+    r = requests.post('{}/repos/{}/{}/pulls'.format(github_api_url, org, repo),
+        auth=github_auth,
+        headers=headers,
+        title=title,
+        head=head,
+        base=base,
+        body=body)
+    r.raise_for_status()
+
 def list_repos(org, repo_type='all'):
     print 'Listing repos in {}'.format(org)
     return requests_paged_as_json('get',
