@@ -70,7 +70,7 @@ Assign the coding challenge to a GitHub username:
 ./coding_challenge <github-username>
 ```
 
-Remove the candidate from the repo:
+Remove the candidate from the repo and create a pull request for the team to review:
 
 ```
 ./coding_challenge --remove-from-repo <github-username>
