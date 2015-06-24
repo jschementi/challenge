@@ -65,6 +65,7 @@ def search_users():
 def remove_from_repo(username):
     try:
         coding_challenge.remove_user_from_repo(username)
+        coding_challenge.review_candidate(username)
         flash('GitHub user "{}" removed from the coding challenge repo!'.format(username), 'success')
     except github_admin_api.requests.exceptions.RequestException as err:
         flash('Error: {}'.format(json.loads(err.response.text)['message']), 'error')

@@ -34,7 +34,7 @@
         {% if c.is_done %}
           <span class="pull-right small button-item"><i>In review</i></span>
         {% else %}
-          <a href="javascript:void(0)" class="remove pull-right button-item" target="_blank" data-toggle="tooltip" data-placement="left" title="Remove candidate from repo and create PR">Review</a>
+          <a href="javascript:void(0)" class="remove pull-right button-item" data-username="{{ c.username }}" target="_blank" data-toggle="tooltip" data-placement="left" title="Remove candidate from repo and create PR">Review</a>
         {% endif %}
 
         <a href="javascript:void(0)" class="delete pull-right" data-username="{{ c.username }}" data-toggle="tooltip" data-placement="left" title="Delete coding challenge">&#10005;</a>

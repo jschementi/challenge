@@ -117,16 +117,28 @@ def remove_user_from_repo(username):
 def is_candidate_ready_for_review(username):
     team_name = get_team_name(username)
     repo = get_repo_name(username)
-    team = github.get_repo_team(org, repo, team_name)
-    return True if team is None else False
+    try:
+        team = github.get_repo_team(org, repo, team_name)
+        return True if team is None else False
+    except Exception as e:
+        return False
 
 def get_last_update(username):
     repo = get_repo_name(username)
     commits = github.list_commits_on_repo(org, repo, username)
     return commits[0]['commit']['author']['date'].split('T')[0]
 
-def create_pull_request(username):
-    pass
+# branch off of the initial commit and then create a pull request into the new branch
+def review_candidate(username):
+    repo = get_repo_name(username)
+    # grab the original commit
+    commits = github.list_commits_on_repo(org, repo, 'SolsTech')
+    first_commit_sha = commits[len(commits) - 1]['sha']
+
+    branch_name = '{}-review'.format(repo)
+    github.create_branch(org, repo, branch_name, first_commit_sha)
+
+    github.create_pull_request(org, repo, 'Code review for {} coding challenge'.format(username), 'master', branch_name, 'Please comment/critique the following code and submit your score as a comment.')
 
 def print_exception(err, prefix="An unexpected error occurred", do_before_trace=None):
     print("{}: {}".format(prefix, err.message))
@@ -142,8 +154,8 @@ def main(args):
             remove_coding_challenge(username)
         elif username == '--remove-from-repo':
             username = args.pop(0)
-            create_pull_request(username)
             remove_user_from_repo(username)
+            review_candidate(username)
         else:
             create_coding_challenge(username)
     except github.requests.exceptions.RequestException as err:

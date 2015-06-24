@@ -104,15 +104,14 @@ def create_repo(org, name, description, homepage, is_private, has_issues, has_wi
     r.raise_for_status()
     return r.json()
 
-def create_pull_request(repo, title, head, base, body):
-    print 'Creating pull request for {}'.format(repo)
-    r = requests.post('{}/repos/{}/{}/pulls'.format(github_api_url, org, repo),
-        auth=github_auth,
-        headers=headers,
-        title=title,
-        head=head,
-        base=base,
-        body=body)
+def create_pull_request(org, repo, title, head, base, body):
+    print 'Creating pull request for {} with params: {}, {}, {}, {}'.format(repo, title, head, base, body)
+    r = requests.post('{}/repos/{}/{}/pulls'.format(github_api_url, org, repo), data=json.dumps({
+            'title': title,
+            'body': body,
+            'head': head,
+            'base': base
+        }), auth=github_auth, headers=headers)
     r.raise_for_status()
 
 def list_repos(org, repo_type='all'):
@@ -120,6 +119,20 @@ def list_repos(org, repo_type='all'):
     return requests_paged_as_json('get',
                                   '{}/orgs/{}/repos?type={}'.format(github_api_url, org, repo_type),
                                   auth=github_auth, headers=headers)
+
+def list_branches(org, repo):
+    print 'Listing branches in {}/{}'.format(org, repo)
+    return requests_paged_as_json('get',
+                                   '{}/repos/{}/{}/branches'.format(github_api_url, org, repo),
+                                   auth=github_auth, headers=headers)
+
+def create_branch(org, repo, title, sha):
+    print 'Creating branch {}'.format(title)
+    r = requests.post('{}/repos/{}/{}/git/refs'.format(github_api_url, org, repo), data=json.dumps({
+            'ref': 'refs/heads/{}'.format(title),
+            'sha': sha
+        }), auth=github_auth, headers=headers)
+    r.raise_for_status()
 
 def delete_repo(owner, repo):
     print 'Delete {}/{}'.format(owner, repo)
