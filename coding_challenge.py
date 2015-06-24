@@ -125,8 +125,11 @@ def is_candidate_ready_for_review(username):
 
 def get_last_update(username):
     repo = get_repo_name(username)
-    commits = github.list_commits_on_repo(org, repo, username)
-    return commits[0]['commit']['author']['date'].split('T')[0]
+    try:
+        commits = github.list_commits_on_repo(org, repo, username)
+        return commits[0]['commit']['author']['date'].split('T')[0]
+    except Exception as e:
+        return 'n/a'
 
 # branch off of the initial commit and then create a pull request into the new branch
 def review_candidate(username):
