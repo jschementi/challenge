@@ -73,7 +73,7 @@ Assign the coding challenge to a GitHub username:
 Remove the candidate from the repo and create a pull request for the team to review:
 
 ```
-./coding_challenge --remove-from-repo <github-username>
+./coding_challenge --review <github-username>
 ```
 
 After their interview process is complete and we no longer need to reference

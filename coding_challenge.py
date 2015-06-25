@@ -98,8 +98,10 @@ def remove_coding_challenge(username):
     if first_error:
         raise first_error
 
-# candidate is added to a team, then team is added to repo. Simplest way is to delete their team
 def remove_user_from_repo(username):
+    """
+    Candidate is added to a team, then team is added to repo. Simplest way is to delete their team
+    """
     user = github.get_user(username)
     username = get_username(user)
     team = github.get_team(org, get_team_name(username), by='name')
@@ -114,12 +116,12 @@ def remove_user_from_repo(username):
     if first_error:
         raise first_error
 
-def is_candidate_ready_for_review(username):
+def is_candidate_in_review(username):
     team_name = get_team_name(username)
     repo = get_repo_name(username)
     try:
         team = github.get_repo_team(org, repo, team_name)
-        return True if team is None else False
+        return team is None
     except Exception as e:
         return False
 
@@ -131,17 +133,22 @@ def get_last_update(username):
     except Exception as e:
         return 'n/a'
 
-# branch off of the initial commit and then create a pull request into the new branch
 def review_candidate(username):
+    """
+    Branch off of the initial commit and then create a pull request into the new branch
+    """
     repo = get_repo_name(username)
     # grab the original commit
     commits = github.list_commits_on_repo(org, repo, 'SolsTech')
-    first_commit_sha = commits[len(commits) - 1]['sha']
+    first_commit_sha = commits[-1]['sha']
 
     branch_name = '{}-review'.format(repo)
     github.create_branch(org, repo, branch_name, first_commit_sha)
 
-    github.create_pull_request(org, repo, 'Code review for {} coding challenge'.format(username), 'master', branch_name, 'Please comment/critique the following code and submit your score as a comment.')
+    title = 'Code review for {} coding challenge'.format(username)
+    head = 'master'
+    body = 'Please comment/critique the following code and submit your score as a comment.'
+    github.create_pull_request(org, repo, title, head, branch_name, body)
 
 def print_exception(err, prefix="An unexpected error occurred", do_before_trace=None):
     print("{}: {}".format(prefix, err.message))
@@ -155,7 +162,7 @@ def main(args):
         if username == '--remove':
             username = args.pop(0)
             remove_coding_challenge(username)
-        elif username == '--remove-from-repo':
+        elif username == '--review':
             username = args.pop(0)
             remove_user_from_repo(username)
             review_candidate(username)

@@ -27,7 +27,7 @@ def index():
                     'username': ''.join(c['name'].split('challenge-')[1:]),
                     'html_url': c['html_url'],
                     'language': c['language'],
-                    'is_done': coding_challenge.is_candidate_ready_for_review(''.join(c['name'].split('challenge-')[1:])),
+                    'is_done': coding_challenge.is_candidate_in_review(''.join(c['name'].split('challenge-')[1:])),
                     'last_update': coding_challenge.get_last_update(''.join(c['name'].split('challenge-')[1:]))
                   } for c in coding_challenge.list_coding_challenges()]
     return render_template('index.html', challenges=challenges)
