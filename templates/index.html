@@ -11,12 +11,16 @@
     margin-left: 10px;
   }
   .block {
-    min-width: 100px;
+    min-width: 90px;
   }
   .block span {
     text-align: center;
   }
-
+  @media (max-width: 500px) {
+    .last-updated {
+      display: none;
+    }
+  }
 </style>
 {% endblock %}
 {% block content %}
@@ -52,7 +56,7 @@
         </span>
 
         {% if c.last_update %}
-          <span class="pull-right small">Last updated: {{ c.last_update }}</span>
+          <span class="pull-right small last-updated">Last updated: {{ c.last_update }}</span>
         {% endif %}
       </a>
     {% endfor %}
