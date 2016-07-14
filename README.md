@@ -18,7 +18,7 @@ sudo gem install foreman
 ### Clone Repo
 
 ```
-git clone https://github.com/SolsCo/challenge.git
+git clone https://github.com/jschementi/challenge.git
 cd challenge
 ```
 
@@ -54,7 +54,7 @@ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/
 echo "export PATH=/usr/local/bin:/usr/local/sbin:$PATH" >> ~/.profile
 source ~/.profile
 brew install python
-git clone https://github.com/SolsCo/challenge.git
+git clone https://github.com/jschementi/challenge.git
 cd challenge
 pip install -r requirements.txt
 ```

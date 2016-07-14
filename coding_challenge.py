@@ -5,8 +5,8 @@ import sys
 import traceback
 
 import github
-github.set_user_agent('https://github.com/SolsCo/challenge')
-github.set_oauth_token('475c949a1d224108e2095d66f62c1d6c93095521')
+github.set_user_agent('https://github.com/jschementi/challenge')
+github.set_oauth_token('yoursupersecrettoken')
 
 org = 'YourOrg'
 coding_challenge_description = 'Coding Challenge for {username}'
