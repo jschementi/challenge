@@ -38,9 +38,8 @@ Open [http://localhost:5000](http://localhost:5000) in web browser.
 
 ## Deploy
 
-The [app is deployed to AWS](http://ec2-52-4-137-245.compute-1.amazonaws.com) with
-[Riker](http://github.com/jschementi/riker). [Jenkins](http://ec2-52-5-135-159.compute-1.amazonaws.com:8080/job/coding-challenge-admin/)
-performs the deployment on each push to this repository.
+This app can easily be deployed to Heroku, Digital Ocean w/Dokku,
+AWS Elastic Beanstalk, or your own custom server.
 
 ## Command-Line Setup & Usage
 
