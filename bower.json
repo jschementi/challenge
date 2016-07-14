@@ -1,9 +1,9 @@
 {
   "name": "coding-challenge",
   "version": "0.0.0",
-  "homepage": "https://github.com/SolsCo/challenge",
+  "homepage": "https://github.com/jschementi/challenge",
   "authors": [
-    "Jimmy Schementi <jimmy@sols.co>"
+    "Jimmy Schementi <jschementi@gmail.com>"
   ],
   "license": "None",
   "private": true,

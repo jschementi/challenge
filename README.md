@@ -1,4 +1,4 @@
-# SOLS Coding Challenge
+# Coding Challenge
 
 Assigns the coding challenge to a specific GitHub user,
 by making them their own GitHub repository to push their answers to.
