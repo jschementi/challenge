@@ -9,6 +9,7 @@ github.set_user_agent('https://github.com/jschementi/challenge')
 github.set_oauth_token('yoursupersecrettoken')
 
 org = 'YourOrg'
+org_admin = 'OrgAdmin'
 coding_challenge_description = 'Coding Challenge for {username}'
 repo_homepage = 'http://www.yourcompany.com/careers'
 
@@ -139,7 +140,7 @@ def review_candidate(username):
     """
     repo = get_repo_name(username)
     # grab the original commit
-    commits = github.list_commits_on_repo(org, repo, 'SolsTech')
+    commits = github.list_commits_on_repo(org, repo, org_admin)
     first_commit_sha = commits[-1]['sha']
 
     branch_name = '{}-review'.format(repo)
