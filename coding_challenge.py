@@ -159,6 +159,13 @@ def print_exception(err, prefix="An unexpected error occurred", do_before_trace=
 
 def main(args):
     try:
+        if (len(args) == 0):
+            print("Usage:")
+            print("  Create: %s USERNAME" % sys.argv[0])
+            print("  Remove: %s --remove USERNAME" % sys.argv[0])
+            print("  Review: %s --review USERNAME" % sys.argv[0])
+            sys.exit(1)
+
         username = args.pop(0)
         if username == '--remove':
             username = args.pop(0)
