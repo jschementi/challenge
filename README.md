@@ -62,6 +62,26 @@ pip install -r requirements.txt
 > NOTE: You'll be prompted to install Xcode command-line tools if you don't
 > already have them installed.
 
+## Configuration
+
+```bash
+cp example.env .env
+```
+
+Then set the following environment variables:
+
+| Variable                    |                  Example                 | Description                                                                                                               |
+|-----------------------------|:----------------------------------------:|---------------------------------------------------------------------------------------------------------------------------|
+| GITHUB_CLIENT_ID            |           1234567890abcdefghij           | [Github OAuth Client ID](https://github.com/settings/developers)                                                         |
+| GITHUB_CLIENT_SECRET        | 1234567890abcdef1234567890abcdef12345678 | [Github OAuth Client Secret](https://github.com/settings/developers)                                                     |
+| GITHUB_TOKEN                | 1234567890abcdef1234567890abcdef12345678 | [Generate Personal Access Token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/) |
+| GITHUB_ORG                  |                  OrgName                 | Name of your github organization                                                                                          |
+| GITHUB_ADMIN                |                 UserName                 | Name of your github admin                                                                                                 |
+| HOMEPAGE                    |            https://github.com/           | Homepage of your organization                                                                                             |
+| SECRET_KEY                  |            SecretPassword12345           | A secret key for your installation, perhaps generated via `openssl rand -hex 32`                                          |
+| GITHUB_ENGINEERING_TEAM     |              EngineeringTeam             | The github team for your engineers                                                                                        |
+| GITHUB_RECRUITING_TEAM      |              RecruitingTeam              | The github team for your recruiters                                                                                       |
+
 ### Usage
 
 Assign the coding challenge to a GitHub username:
@@ -82,4 +102,3 @@ their solutions, you can unassign the coding challenge:
 ```
 ./coding_challenge --remove <github-username>
 ```
-

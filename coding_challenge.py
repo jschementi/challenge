@@ -4,16 +4,24 @@ import re
 import sys
 import traceback
 
+# START dotenv
+import os
+from os.path import join, dirname
+from dotenv import load_dotenv
+dotenv_path = join(dirname(__file__), '.env')
+load_dotenv(dotenv_path)
+# END dotenv
+
 import github
 github.set_user_agent('https://github.com/jschementi/challenge')
-github.set_oauth_token('yoursupersecrettoken')
+github.set_oauth_token(os.getenv("GITHUB_TOKEN"))
 
-org = 'YourOrg'
-org_admin = 'OrgAdmin'
+org = os.getenv("GITHUB_ORG")
+org_admin = os.getenv("GITHUB_ADMIN")
 coding_challenge_description = 'Coding Challenge for {username}'
-repo_homepage = 'http://www.yourcompany.com/careers'
+repo_homepage = os.getenv("HOMEPAGE")
 
-teams = ['engineers', 'recruiting']
+teams = [os.getenv("GITHUB_ENGINEERING_TEAM"), os.getenv("GITHUB_RECRUITING_TEAM")]
 
 team_ids = [github.get_team(org, t)['id'] for t in teams]
 
@@ -159,6 +167,13 @@ def print_exception(err, prefix="An unexpected error occurred", do_before_trace=
 
 def main(args):
     try:
+        if (len(args) == 0):
+            print("Usage:")
+            print("  Create: %s USERNAME" % sys.argv[0])
+            print("  Remove: %s --remove USERNAME" % sys.argv[0])
+            print("  Review: %s --review USERNAME" % sys.argv[0])
+            sys.exit(1)
+
         username = args.pop(0)
         if username == '--remove':
             username = args.pop(0)

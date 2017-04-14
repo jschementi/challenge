@@ -9,9 +9,16 @@ import coding_challenge
 
 import github as github_admin_api
 
+# START dotenv
+from os.path import join, dirname
+from dotenv import load_dotenv
+dotenv_path = join(dirname(__file__), '.env')
+load_dotenv(dotenv_path)
+# END dotenv
+
 app = Flask(__name__)
 
-app.secret_key = '\xa5m\xc9?\xd3\x92\xfc>\xc9<\x8f\xed\x86lp=\xe6R\xec\xe4\xde\xda\x0f\xea' # TODO: not so secret - pull out into env
+app.secret_key = os.getenv('SECRET_KEY')
 app.wsgi_app = MethodRewriteMiddleware(app.wsgi_app)
 
 app.config['GITHUB_CLIENT_ID'] = os.getenv('GITHUB_CLIENT_ID')
