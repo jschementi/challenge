@@ -4,16 +4,24 @@ import re
 import sys
 import traceback
 
+# START dotenv
+import os
+from os.path import join, dirname
+from dotenv import load_dotenv
+dotenv_path = join(dirname(__file__), '.env')
+load_dotenv(dotenv_path)
+# END dotenv
+
 import github
 github.set_user_agent('https://github.com/jschementi/challenge')
-github.set_oauth_token('yoursupersecrettoken')
+github.set_oauth_token(os.getenv("CODING_CHALLENGE_GITHUB_TOKEN"))
 
-org = 'YourOrg'
-org_admin = 'OrgAdmin'
+org = os.getenv("CODING_CHALLENGE_GITHUB_ORG")
+org_admin = os.getenv("CODING_CHALLENGE_GITHUB_ADMIN")
 coding_challenge_description = 'Coding Challenge for {username}'
-repo_homepage = 'http://www.yourcompany.com/careers'
+repo_homepage = os.getenv("CODING_CHALLENGE_HOMEPAGE")
 
-teams = ['engineers', 'recruiting']
+teams = [os.getenv("CODING_CHALLENGE_GITHUB_ENGINEERING_TEAM"), os.getenv("CODING_CHALLENGE_GITHUB_RECRUITING_TEAM")]
 
 team_ids = [github.get_team(org, t)['id'] for t in teams]
 

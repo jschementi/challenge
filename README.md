@@ -62,6 +62,25 @@ pip install -r requirements.txt
 > NOTE: You'll be prompted to install Xcode command-line tools if you don't
 > already have them installed.
 
+## Configuration
+
+```bash
+cp example.env .env
+```
+
+Then set the following environment variables:
+
+| Variable                                 |                  Example                 | Description                                                                                                               |
+|------------------------------------------|:----------------------------------------:|---------------------------------------------------------------------------------------------------------------------------|
+| CODING_CHALLENGE_GITHUB_ID               |           your-github-username           | Github username                                                                                                           |
+| CODING_CHALLENGE_GITHUB_TOKEN            | 5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8 | [Generate Personal Access Token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/) |
+| CODING_CHALLENGE_GITHUB_ORG              |                  OrgName                 | Name of your github organization                                                                                          |
+| CODING_CHALLENGE_GITHUB_ADMIN            |                 UserName                 | Name of your github admin                                                                                                 |
+| CODING_CHALLENGE_HOMEPAGE                |            https://github.com/           | Homepage of your organization                                                                                             |
+| CODING_CHALLENGE_SECRET_KEY              |            SecretPassword12345           | A secret key for your installation, perhaps generated via `openssl rand -hex 32`                                          |
+| CODING_CHALLENGE_GITHUB_ENGINEERING_TEAM |              EngineeringTeam             | The github team for your engineers                                                                                        |
+| CODING_CHALLENGE_GITHUB_RECRUITING_TEAM  |              RecruitingTeam              | The github team for your recruiters                                                                                       |
+
 ### Usage
 
 Assign the coding challenge to a GitHub username:
@@ -82,4 +101,3 @@ their solutions, you can unassign the coding challenge:
 ```
 ./coding_challenge --remove <github-username>
 ```
-
