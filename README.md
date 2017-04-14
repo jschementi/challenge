@@ -72,8 +72,8 @@ Then set the following environment variables:
 
 | Variable                    |                  Example                 | Description                                                                                                               |
 |-----------------------------|:----------------------------------------:|---------------------------------------------------------------------------------------------------------------------------|
-| GITHUB_CLIENT_ID            |           1234567890abcdefghij           | [Github OAuth Client ID ] (https://github.com/settings/developers)                                                        |
-| GITHUB_CLIENT_SECRET        | 1234567890abcdef1234567890abcdef12345678 | [Github OAuth Client Secret ] (https://github.com/settings/developers)                                                    |
+| GITHUB_CLIENT_ID            |           1234567890abcdefghij           | [Github OAuth Client ID](https://github.com/settings/developers)                                                         |
+| GITHUB_CLIENT_SECRET        | 1234567890abcdef1234567890abcdef12345678 | [Github OAuth Client Secret](https://github.com/settings/developers)                                                     |
 | GITHUB_TOKEN                | 1234567890abcdef1234567890abcdef12345678 | [Generate Personal Access Token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/) |
 | GITHUB_ORG                  |                  OrgName                 | Name of your github organization                                                                                          |
 | GITHUB_ADMIN                |                 UserName                 | Name of your github admin                                                                                                 |
