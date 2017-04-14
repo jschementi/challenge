@@ -70,16 +70,17 @@ cp example.env .env
 
 Then set the following environment variables:
 
-| Variable                                 |                  Example                 | Description                                                                                                               |
-|------------------------------------------|:----------------------------------------:|---------------------------------------------------------------------------------------------------------------------------|
-| CODING_CHALLENGE_GITHUB_ID               |           your-github-username           | Github username                                                                                                           |
-| CODING_CHALLENGE_GITHUB_TOKEN            | 5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8 | [Generate Personal Access Token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/) |
-| CODING_CHALLENGE_GITHUB_ORG              |                  OrgName                 | Name of your github organization                                                                                          |
-| CODING_CHALLENGE_GITHUB_ADMIN            |                 UserName                 | Name of your github admin                                                                                                 |
-| CODING_CHALLENGE_HOMEPAGE                |            https://github.com/           | Homepage of your organization                                                                                             |
-| CODING_CHALLENGE_SECRET_KEY              |            SecretPassword12345           | A secret key for your installation, perhaps generated via `openssl rand -hex 32`                                          |
-| CODING_CHALLENGE_GITHUB_ENGINEERING_TEAM |              EngineeringTeam             | The github team for your engineers                                                                                        |
-| CODING_CHALLENGE_GITHUB_RECRUITING_TEAM  |              RecruitingTeam              | The github team for your recruiters                                                                                       |
+| Variable                    |                  Example                 | Description                                                                                                               |
+|-----------------------------|:----------------------------------------:|---------------------------------------------------------------------------------------------------------------------------|
+| GITHUB_CLIENT_ID            |           1234567890abcdefghij           | [Github OAuth Client ID ] (https://github.com/settings/developers)                                                        |
+| GITHUB_CLIENT_SECRET        | 1234567890abcdef1234567890abcdef12345678 | [Github OAuth Client Secret ] (https://github.com/settings/developers)                                                    |
+| GITHUB_TOKEN                | 1234567890abcdef1234567890abcdef12345678 | [Generate Personal Access Token](https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/) |
+| GITHUB_ORG                  |                  OrgName                 | Name of your github organization                                                                                          |
+| GITHUB_ADMIN                |                 UserName                 | Name of your github admin                                                                                                 |
+| HOMEPAGE                    |            https://github.com/           | Homepage of your organization                                                                                             |
+| SECRET_KEY                  |            SecretPassword12345           | A secret key for your installation, perhaps generated via `openssl rand -hex 32`                                          |
+| GITHUB_ENGINEERING_TEAM     |              EngineeringTeam             | The github team for your engineers                                                                                        |
+| GITHUB_RECRUITING_TEAM      |              RecruitingTeam              | The github team for your recruiters                                                                                       |
 
 ### Usage
 

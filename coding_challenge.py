@@ -14,14 +14,14 @@ load_dotenv(dotenv_path)
 
 import github
 github.set_user_agent('https://github.com/jschementi/challenge')
-github.set_oauth_token(os.getenv("CODING_CHALLENGE_GITHUB_TOKEN"))
+github.set_oauth_token(os.getenv("GITHUB_TOKEN"))
 
-org = os.getenv("CODING_CHALLENGE_GITHUB_ORG")
-org_admin = os.getenv("CODING_CHALLENGE_GITHUB_ADMIN")
+org = os.getenv("GITHUB_ORG")
+org_admin = os.getenv("GITHUB_ADMIN")
 coding_challenge_description = 'Coding Challenge for {username}'
-repo_homepage = os.getenv("CODING_CHALLENGE_HOMEPAGE")
+repo_homepage = os.getenv("HOMEPAGE")
 
-teams = [os.getenv("CODING_CHALLENGE_GITHUB_ENGINEERING_TEAM"), os.getenv("CODING_CHALLENGE_GITHUB_RECRUITING_TEAM")]
+teams = [os.getenv("GITHUB_ENGINEERING_TEAM"), os.getenv("GITHUB_RECRUITING_TEAM")]
 
 team_ids = [github.get_team(org, t)['id'] for t in teams]
 

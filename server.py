@@ -18,7 +18,7 @@ load_dotenv(dotenv_path)
 
 app = Flask(__name__)
 
-app.secret_key = '\xa5m\xc9?\xd3\x92\xfc>\xc9<\x8f\xed\x86lp=\xe6R\xec\xe4\xde\xda\x0f\xea' # TODO: not so secret - pull out into env
+app.secret_key = os.getenv('SECRET_KEY')
 app.wsgi_app = MethodRewriteMiddleware(app.wsgi_app)
 
 app.config['GITHUB_CLIENT_ID'] = os.getenv('GITHUB_CLIENT_ID')
